@@ -1,6 +1,10 @@
 import {useState} from "react";
 import TodoTable from "./TodoTable";
 import type { Todo,Priority } from "../types";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+
 
 
 
@@ -35,27 +39,40 @@ function TodoList() {
     return (
     <>
     <h3>My to do list</h3>
-    <input
-        placeholder="Enter description..."
-        value={todo.description}
-        onChange={e => setTodo({...todo, description: e.target.value})}
-    />
-    <select
-        title="Priority"
-        value={todo.priority}
-        onChange={e => setTodo({...todo, priority: e.target.value as Priority})}
+    <Stack 
+        mt={2}
+        direction="row" 
+        spacing={2} 
+        alignItems={"center"} 
+        justifyContent={"center"}
     >
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-    </select>
-    <input
-        type= "date"
-        placeholder="Enter due date..."
-        value={todo.duedate}
-        onChange={e => setTodo({...todo, duedate: e.target.value})}
-    />
-    <button onClick={handleAdd}>Add todo</button>
+        <TextField 
+            label="Enter description..."
+            value={todo.description}
+            onChange={e => setTodo({...todo, description: e.target.value})}
+        />
+        <TextField
+            title="Priority"
+            select
+            slotProps={{
+                select: {
+                native: true,
+                },
+            }}
+            value={todo.priority}
+            onChange={e => setTodo({...todo, priority: e.target.value as Priority})}
+        >
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </TextField>
+        <TextField
+            type= "date"
+            value={todo.duedate}
+            onChange={e => setTodo({...todo, duedate: e.target.value})}
+        />
+        <Button variant="contained" color="secondary" onClick={handleAdd}>Add todo</Button>
+    </Stack>
     <TodoTable todos={todos}handleDelete={handleDelete}/>
     </>
     );
