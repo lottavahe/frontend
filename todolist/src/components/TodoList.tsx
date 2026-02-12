@@ -1,11 +1,8 @@
 import {useState} from "react";
+import TodoTable from "./TodoTable";
+import type { Todo,Priority } from "../types";
 
-type Todo = {
-    description: string;
-    priority: Priority;
-    duedate: string;
-}
-type Priority = "low" | "medium" | "high";
+
 
 function TodoList() {
 
@@ -29,8 +26,10 @@ function TodoList() {
             alert("Enter description first");
         }
     }
+    //tässä delete nappi indexin mukaan + window.confirm() eli oletko varma palauttaa bboleanin
     const handleDelete = (row: number) => {
-        setTodos(todos.filter((todo, index) => row != index));
+        if (window.confirm("Are you sure?"))
+        setTodos(todos.filter((_, index) => row != index));
     }
 
     return (
@@ -57,26 +56,7 @@ function TodoList() {
         onChange={e => setTodo({...todo, duedate: e.target.value})}
     />
     <button onClick={handleAdd}>Add todo</button>
-    <table>
-        <thead>
-            <th>Description</th>
-            <th>Priority</th>
-            <th>Due date</th>
-            <th>Actions</th>
-        </thead>
-    <tbody>
-        {
-            todos.map((todo, index) =>
-                <tr key ={index}>
-                    <td>{todo.description}</td>
-                    <td>{todo.priority}</td>
-                    <td>{todo.duedate}</td>
-                    <td><button onClick={() => handleDelete(index)}>Delete</button></td>
-                </tr>
-            )
-        }
-    </tbody>
-    </table>
+    <TodoTable todos={todos}handleDelete={handleDelete}/>
     </>
     );
 }
