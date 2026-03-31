@@ -9,9 +9,9 @@ export type CarData = {
     _links: {
         self: {
             href: string;
-        },
+        };
         car: {
             href: string;
-        }
-    }
-}
+        };
+    };
+};
