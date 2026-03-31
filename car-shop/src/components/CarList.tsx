@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import type { CarData } from "../types";
 import { DataGrid } from "@mui/x-data-grid";
-import type { GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
+import type { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 function CarList() {
     const [cars, setCars] = useState<CarData[]>([]);
 
     const columns: GridColDef[] = [
-        {field: "brand", width: 200, headerName: "Brand"},
-        {field: "model", width: 150, headerName: "Model"},
-        {field: "color", headerName: "Color"},
-        {field: "fuel", headerName: "Fuel type"},
-        {field: "modelYear", headerName: "Model year"},
-        {field: "price", headerName: "Price €"},
-        {field: "delete", 
+        { field: "brand", width: 200, headerName: "Brand" },
+        { field: "model", width: 150, headerName: "Model" },
+        { field: "color", headerName: "Color" },
+        { field: "fuel", headerName: "Fuel type" },
+        { field: "modelYear", headerName: "Model year" },
+        { field: "price", headerName: "Price €" },
+        {
+            field: "delete",
             headerName: "",
             sortable: false,
             filterable: false,
             disableColumnMenu: true,
             renderCell: (params: GridRenderCellParams) =>
-                <button onClick={() => 
+                <button onClick={() =>
                     handleDelete(params.row._links.self.href)}> DELETE
                 </button>
 
@@ -41,31 +42,31 @@ function CarList() {
             fetch(url, {
                 method: "DELETE"
             })
-            .then(response => {
-                if (!response.ok)
-                    throw new Error ("error when deleting a car");
-                getCars();
-            })
-            .catch(error => console.error(error))
+                .then(response => {
+                    if (!response.ok)
+                        throw new Error("error when deleting a car");
+                    getCars();
+                })
+                .catch(error => console.error(error))
         }
     }
     useEffect(() => {
         getCars();
-    },[])
+    }, [])
 
 
-    
+
     return (
         <>
-        <div style={{height: 500, width: "100%"}}>
-            <DataGrid
-            columns={columns}
-            rows={cars}
-            getRowId={row => row._links.self.href}
-            rowSelection={false}
-            />
-        </div>
-        {/*Tässä testasin että näkyykö data oikein nettisivulla
+            <div style={{ height: 500, width: "100%" }}>
+                <DataGrid
+                    columns={columns}
+                    rows={cars}
+                    getRowId={row => row._links.self.href}
+                    rowSelection={false}
+                />
+            </div>
+            {/*Tässä testasin että näkyykö data oikein nettisivulla
         {cars.map((car, index) => (
             <div key={index}>
                 {car.brand} {car.model} {car.price}
