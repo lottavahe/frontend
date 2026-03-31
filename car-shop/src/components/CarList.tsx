@@ -12,14 +12,14 @@ function CarList() {
         {field: "fuel", headerName: "Fuel type"},
         {field: "modelYear", headerName: "Model year"},
         {field: "price", headerName: "Price €"},
-        {field: "_links.self.href", 
+        {field: "delete", 
             headerName: "",
             sortable: false,
             filterable: false,
             disableColumnMenu: true,
             renderCell: (params: GridRenderCellParams) =>
                 <button onClick={() => 
-                    handleDelete(params.id as string)}> DELETE
+                    handleDelete(params.row._links.self.href)}> DELETE
                 </button>
 
         }
@@ -37,16 +37,15 @@ function CarList() {
     }
 
     const handleDelete = (url: string) => {
-        if (window.confirm("Are you shure you want to delete it?")) {
+        if (window.confirm("Are you sure you want to delete it?")) {
             fetch(url, {
                 method: "DELETE"
             })
             .then(response => {
                 if (!response.ok)
                     throw new Error ("error when deleting a car");
-                return response.json();
+                getCars();
             })
-            .then(() => getCars())
             .catch(error => console.error(error))
         }
     }
