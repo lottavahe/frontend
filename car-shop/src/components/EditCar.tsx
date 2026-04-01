@@ -6,22 +6,23 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import type { Car } from "../types";
+import type { Car, CarData } from "../types";
 
-type AddCarProps = {
-    saveCar: (car: Car) => void;
+type EditCarProps = {
+    carData: CarData;
+    updateCar: (car: Car, url: string) => void;
 };
 
-function AddCar({saveCar}: AddCarProps) {
+function EditCar({ carData, updateCar }: EditCarProps) {
     const [open, setOpen] = useState(false);
     const [car, setCar] = useState<Car>({
-        brand: "",
-        model: "",
-        color: "",
-        fuel: "",
-        modelYear: new Date().getFullYear(),
-        price: 0
-    })
+        brand: carData.brand,
+        model: carData.model,
+        color: carData.color,
+        fuel: carData.fuel,
+        modelYear: carData.modelYear,
+        price: carData.price
+    });
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,18 +32,18 @@ function AddCar({saveCar}: AddCarProps) {
         setOpen(false);
     };
 
-    const addCar = () => {
-        saveCar(car);
+    const editCar = () => {
+        updateCar(car, carData._links.self.href);
         handleClose();
     }
 
     return (
         <>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Add new car
+                Edit car
             </Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>New car</DialogTitle>
+                <DialogTitle>Edit car</DialogTitle>
                 <DialogContent>
                     <TextField
                         required
@@ -102,7 +103,7 @@ function AddCar({saveCar}: AddCarProps) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={addCar}>
+                    <Button onClick={editCar}>
                         Save
                     </Button>
                 </DialogActions>
@@ -111,4 +112,4 @@ function AddCar({saveCar}: AddCarProps) {
     );
 }
 
-export default AddCar;
+export default EditCar;

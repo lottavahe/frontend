@@ -15,3 +15,7 @@ export type CarData = {
         };
     };
 };
+export type Car = Omit<CarData, "_links">;
+//ihmettelin kun cardata import ei toiminut oikein addcar
+//tiedostossa, lisäsin tämän loin uuden tyypin car se on sama kuin cardata
+//mutta ilman links kenttää
